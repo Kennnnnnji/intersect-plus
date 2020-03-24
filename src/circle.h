@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm>
+#include <fstream>
 
 class Circle : public Shape {
 public:
@@ -27,6 +28,9 @@ public:
 	bool isCross(Circle c2) {
 		double distance = P.getDistance(c2.P);
 		return distance <= r + c2.r && distance >= abs(r - c2.r);
+	}
+	void printData(ofstream& ofs) {
+		ofs << "C " << P.x << " " << P.y << " " << r << endl;
 	}
 	pointPair intersections(Circle* c) {
 		if (!isCross(*c)) return pointPair(Point(), Point());

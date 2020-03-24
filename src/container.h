@@ -9,6 +9,10 @@
 using namespace std;
 
 class Container {
+private:
+	int id;
+	string name;
+
 public:
 	unordered_multimap<double, Shape*> map;
 	vector<Line*> lineVec;

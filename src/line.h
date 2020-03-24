@@ -17,4 +17,6 @@ public:
 	void show();
 	Point getCross(Line* l2);
 	Point setX(double x);
+	Point setY(double y);
+	void printData(ofstream& ofs);
 };

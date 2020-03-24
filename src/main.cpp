@@ -79,6 +79,8 @@ bool check_point_overlap(int x1, int y1, int x2, int y2) {
 	return x1 == x2 && y1 == y2;
 }
 
+ofstream printFile("toprint.txt");
+
 void insertShape(ifstream& inFile, char c, Container* container) {
 	int x1, y1, x2, y2;
 	Line *l;
@@ -92,6 +94,7 @@ void insertShape(ifstream& inFile, char c, Container* container) {
 			}
 			l = new Line(x1, y1, x2, y2, Line::LineType::Line);
 			container->insert(*l);
+			l->printData(printFile);
 			break;
 		case 'R':
 			inFile >> x1 >> y1 >> x2 >> y2;
@@ -101,6 +104,7 @@ void insertShape(ifstream& inFile, char c, Container* container) {
 			}
 			l = new Line(x1, y1, x2, y2, Line::LineType::Ray);
 			container->insert(*l);
+			l->printData(printFile);
 			break;
 		case 'S':
 			inFile >> x1 >> y1 >> x2 >> y2;
@@ -110,12 +114,14 @@ void insertShape(ifstream& inFile, char c, Container* container) {
 			}
 			l = new Line(x1, y1, x2, y2, Line::LineType::Segment);
 			container->insert(*l);
+			l->printData(printFile);
 			break;
 		case 'C':
 			inFile >> x1 >> y1 >> x2;
 			if (x2 <= 0) throw invalid_argument("r <= 0");
 			cir = new Circle(Point(x1, y1), x2);
 			container->insert(*cir);
+			cir->printData(printFile);
 			break;
 		default:
 			// ERROR
@@ -145,25 +151,24 @@ int run2() {
 	const char* arg3 = ss.at(3).c_str();
 	const char* arg4 = ss.at(4).c_str();
 	const char* args[5]{ arg0, arg1, arg2, arg3, arg4 };
-	return 0;// run(argc, (char**)args);
+	return run(argc, (char**)args);
 }
 
 void writePoints(unordered_set<Point, myHash>* pointSet) {
 	ofstream outPoint("points.txt");
 	auto it = pointSet->begin();
 	while (it != pointSet->end()) {
-		outPoint << (*it).x << " " << (*it).y << endl;
+		outPoint << "P " << (*it).x << " " << (*it).y << endl;
 		it++;
 	}
 	outPoint.close();
 }
 
-int main(int argc, char** argv) {
+int run(int argc, char** argv) {
 	int n;
 	char P;
 
 	ofstream outFile;
-	// 异常处理？
 	string inFileName, outFileName;
 	if (debug) {
 		Line l = Line(0, 0, 1, 1, Line::LineType::Line);
