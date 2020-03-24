@@ -1,3 +1,0 @@
-# intersect-plus
-
-read
